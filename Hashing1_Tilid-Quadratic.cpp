@@ -1,41 +1,44 @@
+//Carl Christian G. Tilid
+//Searching Using Hashing, (b) Quadratic Probing
 #include <iostream>
 
 using namespace std;
 
-// Hash function to map keys to array indices
+//Hash function
 int hashFunction(int key) {
-    return key % 17; // Using modulo operator to fit within array bounds
+    return key % 17; //k mod 17
 }
 
-// Function to count the total number of probes
+//Count the total no of probes
 int countProbes(int keys[], int n) {
     int probeCount = 0;
-    bool occupied[17] = {false}; // Track array slots occupancy
+    bool occupied[17] = {false}; //Bool value to check if occupied for probing
 
-    // Create and initialize the table
-    int table[17][3] = {0}; // Columns: Key, Hash value, Number of probes
+    int table[17][3] = {0}; //Table to show the final contents of the table
 
     for (int i = 0; i < n; i++) {
         int key = keys[i];
         int index = hashFunction(key);
         int probes = 0;
 
-        // Probe until an empty slot is found
+        //Probe by check occupied bool value then add count 
         while (occupied[index]) {
             probes++;
-            index = (index + probes * probes) % 17; // Linear probing
+            index = hashFunction(key);
+            index = (index + probes*probes) % 17; //Quadratic Probing
         }
 
-        occupied[index] = true; // Mark slot as occupied
-        probeCount += probes;    // Add probes to total count
+        probes++;
+        occupied[index] = true; //Mark index as occupied
+        probeCount += probes;  
 
-        // Store key, hash value, and number of probes in the table
+        //Store table values
         table[index][0] = key;
         table[index][1] = index;
         table[index][2] = probes;
     }
 
-    // Print the table
+    //Show table
     cout << "Key\tHash\tProbes" << endl;
     for (int i = 0; i < 17; i++) {
         if (occupied[i]) {
