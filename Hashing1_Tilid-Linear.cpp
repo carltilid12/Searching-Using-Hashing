@@ -19,7 +19,7 @@ int countProbes(int keys[], int n) {
     for (int i = 0; i < n; i++) {
         int key = keys[i];
         int index = hashFunction(key);
-        int probes = 0;
+        int probes = 1;
 
         //Probe by check occupied bool value then add count 
         while (occupied[index]) {
